@@ -16,6 +16,8 @@
     "optimized": null,
     "production": null
   },
+  "bounds": { "w": null, "h": null, "d": null },
+  "license": "commercial",
   "used-in": [],
   "created": "YYYY-MM-DD",
   "notes": ""
