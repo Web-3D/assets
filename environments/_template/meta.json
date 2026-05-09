@@ -1,0 +1,17 @@
+{
+  "name": "ten-asset-kebab-case",
+  "category": "environments",
+  "source-tool": "luma",
+  "status": "raw",
+  "description": "Mô tả 1 câu — dùng để search",
+  "tags": ["splat", "outdoor", "vietnamese"],
+  "format": "spz",
+  "file-size": {
+    "raw": null,
+    "production": null
+  },
+  "capture-location": "",
+  "used-in": [],
+  "created": "YYYY-MM-DD",
+  "notes": ""
+}

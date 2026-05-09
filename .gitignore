@@ -1,0 +1,14 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Blender
+*.blend1
+*.blend2
+*.blend3
+*.blend@
+
+# Temporary files
+*.tmp
+*.bak
+*.log

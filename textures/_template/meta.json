@@ -1,0 +1,12 @@
+{
+  "name": "ten-texture-kebab-case",
+  "category": "textures",
+  "source": "poly-haven",
+  "resolution": "2048x2048",
+  "maps": ["diffuse", "normal", "roughness"],
+  "format": "ktx2",
+  "used-in": [],
+  "license": "CC0",
+  "created": "YYYY-MM-DD",
+  "notes": ""
+}

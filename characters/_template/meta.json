@@ -1,0 +1,24 @@
+{
+  "name": "ten-asset-kebab-case",
+  "category": "characters",
+  "source-tool": "rodin",
+  "status": "raw",
+  "description": "Mô tả 1 câu — dùng để search",
+  "tags": ["npc", "vietnamese"],
+  "polycount": {
+    "raw": null,
+    "optimized": null,
+    "production": null
+  },
+  "texture-size": "1024x1024",
+  "file-size": {
+    "raw": null,
+    "optimized": null,
+    "production": null
+  },
+  "rig": false,
+  "animations": [],
+  "used-in": [],
+  "created": "YYYY-MM-DD",
+  "notes": ""
+}

@@ -1,0 +1,22 @@
+{
+  "name": "ten-asset-kebab-case",
+  "category": "props",
+  "source-tool": "meshy",
+  "status": "raw",
+  "description": "Mô tả 1 câu — dùng để search",
+  "tags": ["furniture", "street"],
+  "polycount": {
+    "raw": null,
+    "optimized": null,
+    "production": null
+  },
+  "texture-size": "512x512",
+  "file-size": {
+    "raw": null,
+    "optimized": null,
+    "production": null
+  },
+  "used-in": [],
+  "created": "YYYY-MM-DD",
+  "notes": ""
+}
