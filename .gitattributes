@@ -1,0 +1,9 @@
+*.glb binary
+*.gltf binary
+*.ktx2 binary
+*.spz binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.exr binary
+*.hdr binary
