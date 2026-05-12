@@ -1,16 +1,18 @@
 # assets/ — Thư viện 3D Assets
-> Shared asset library cho toàn bộ workspace `THREEJS/`.
+> Shared asset library cho toàn bộ ecosystem `Web-3D/` — dùng chung mọi engine (THREEJS, BABYLONJS).
 > Tái sử dụng qua nhiều project — không duplicate file giữa các project.
 
 ---
 
-## Vai trò trong workspace
+## Vai trò trong ecosystem
 
 ```
-THREEJS/
-├── 00-Threejs/      ← project (chỉ import từ assets/[category]/[name]/production/)
-├── threejs-modules/ ← code library (shaders, utils)
-└── assets/          ← asset library — repo git riêng, versioning độc lập
+Web-3D/                  ← ecosystem root
+├── assets/              ← asset library — repo git riêng, versioning độc lập
+├── THREEJS/
+│   └── 00-Threejs/      ← import từ ../../assets/[category]/[name]/production/
+└── BABYLONJS/
+    └── 00-Babylon/      ← import từ ../../assets/[category]/[name]/production/
 ```
 
 ---
@@ -282,7 +284,7 @@ Asset > 5MB → CDN (Cloudflare R2 / Bunny.net). Asset < 5MB → bundle với Vi
 - [ ] Chạy Blender MCP Workflow A → lưu vào `optimized/`, update `meta.status: "optimized"`
 - [ ] Chạy gltf-transform → lưu vào `production/`, update `meta.status: "production"`
 - [ ] Update `polycount.production`, `texture-size`, `bounds`, `file-size.production` trong `meta.json`
-- [ ] **Chạy `node validate.js assets/[category]/[name]`** — phải PASS trước khi dùng
+- [ ] **Chạy `node THREEJS/validate.js assets/[category]/[name]`** từ `Web-3D/` root — phải PASS trước khi dùng
 - [ ] Update bảng Asset Catalog trong file này
 - [ ] Update `used-in` trong `meta.json` khi import vào project
 
