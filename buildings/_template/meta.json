@@ -1,9 +1,11 @@
 {
   "name": "ten-asset-kebab-case",
   "category": "buildings",
+  "tier": "standard",
   "source-tool": "tripo",
   "status": "raw",
   "description": "Mô tả 1 câu — dùng để search",
+  "shaderProfile": "vietnamese-street",
   "tags": ["vietnamese", "street"],
   "polycount": {
     "raw": null,

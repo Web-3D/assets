@@ -1,9 +1,11 @@
 {
   "name": "ten-asset-kebab-case",
   "category": "props",
+  "tier": "standard",
   "source-tool": "meshy",
   "status": "raw",
   "description": "Mô tả 1 câu — dùng để search",
+  "shaderProfile": "neutral",
   "tags": ["furniture", "street"],
   "polycount": {
     "raw": null,

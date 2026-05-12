@@ -1,9 +1,11 @@
 {
   "name": "ten-asset-kebab-case",
   "category": "characters",
+  "tier": "npc",
   "source-tool": "rodin",
   "status": "raw",
   "description": "Mô tả 1 câu — dùng để search",
+  "shaderProfile": "neutral",
   "tags": ["npc", "vietnamese"],
   "polycount": {
     "raw": null,

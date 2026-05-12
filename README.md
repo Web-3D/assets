@@ -19,8 +19,9 @@ THREEJS/
 
 ```
 assets/
-├── README.md                    ← file này
-├── ARCHITECTURE.md              ← (deprecated — đã gộp vào đây)
+├── README.md                    ← file này — schema, pipeline, quy tắc
+├── ROADMAP.md                   ← kế hoạch, tiến độ, budget tier, shaderProfile registry
+├── REGISTRY.json                ← index tổng hợp mọi assets đã validate (auto-generated bởi validate.js)
 ├── .gitattributes               ← Git LFS tracking: *.glb *.spz *.ktx2 *.png *.exr
 │
 ├── buildings/                   ← công trình kiến trúc
@@ -66,11 +67,11 @@ AI tool                Blender MCP              gltf-transform
 KHÔNG SỬA GÌ           bake, origin             browser-ready
 ```
 
-| Trạng thái    | Tạo bởi    | Được sửa | Dùng trong project |
-|------------   |---------     |----------  |-------------------|
-| `raw/`        | AI tool      | ❌ KHÔNG   | ❌ |
-| `optimized/`  | Blender MCP  | ✅ iterate   | ❌ |
-| `production/` | gltf-transform | ❌ KHÔNG   | ✅ | 
+| Trạng thái    | Tạo bởi        | Được sửa   | Dùng trong project |
+| ------------- | -------------- | ---------- | ------------------ |
+| `raw/`        | AI tool        | ❌ KHÔNG   | ❌                 |
+| `optimized/`  | Blender MCP    | ✅ iterate | ❌                 |
+| `production/` | gltf-transform | ❌ KHÔNG   | ✅                 |
 
 **Quy tắc vàng:** Project chỉ import từ `production/`. Không shortcut.
 
@@ -96,9 +97,11 @@ Từ Poly Haven — đã tối ưu sẵn, flat structure không có 3 trạng th
 {
   "name": "quan-ca-phe-goc-pho",
   "category": "buildings",
+  "tier": "standard",
   "source-tool": "meshy",
   "status": "production",
   "description": "Quán cà phê góc phố phong cách Việt Nam cũ",
+  "shaderProfile": "vietnamese-street",
   "tags": ["vietnamese", "cafe", "street"],
   "polycount": { "raw": 45000, "optimized": 8200, "production": 8200 },
   "texture-size": "2048x2048",
@@ -108,6 +111,9 @@ Từ Poly Haven — đã tối ưu sẵn, flat structure không có 3 trạng th
   "notes": ""
 }
 ```
+
+- **`tier`**: `"standard"` / `"medium"` / `"hero"` — xác định polycount budget (xem bảng trên)
+- **`shaderProfile`**: link với climate uniform set trong `GlobalUniforms` (xem `ROADMAP.md`)
 
 ### props
 
@@ -172,26 +178,43 @@ Như buildings nhưng `"texture-size": "512x512"` (prop nhỏ không cần textu
 
 ## Performance budget
 
-| Asset type | Polycount production | Texture max |
-|-----------|---------------------|-------------|
-| Prop nhỏ | < 500 tris | 512×512 |
-| Building | < 5,000 tris | 2048×2048 |
-| NPC character | < 10,000 tris | 1024×1024 |
-| Hero character | < 30,000 tris | 2048×2048 |
+> Chi tiết kế hoạch asset và tier rationale: `ROADMAP.md`
 
+### Buildings
+
+| Tier       | Polycount production | Texture max | Ví dụ                               |
+| ---------- | -------------------- | ----------- | ----------------------------------- |
+| `standard` | ≤ 5,000 tris         | 2048×2048   | Hàng quán ven đường, nhà phố thường |
+| `medium`   | ≤ 30,000 tris        | 2048×2048   | Nhà chính, tòa nhà quan trọng       |
+| `hero`     | ≤ 100,000 tris       | 4096×4096   | Focal point — chùa, cột mốc         |
+
+### Characters
+
+| Tier   | Polycount production | Texture max |
+| ------ | -------------------- | ----------- |
+| `npc`  | ≤ 15,000 tris        | 1024×1024   |
+| `hero` | ≤ 50,000 tris        | 2048×2048   |
+
+### Props
+
+| Tier       | Polycount production | Texture max |
+| ---------- | -------------------- | ----------- |
+| `standard` | ≤ 2,000 tris         | 512×512     |
+
+Tier khai báo trong `meta.json` field `"tier"`. `validate.js` đọc tier để apply đúng limit.
 Asset không đạt budget → không move vào `production/`.
 
 ---
 
 ## Tool → Category mapping
 
-| Category | AI Generation | Blender MCP | gltf-transform |
-|----------|--------------|-------------|----------------|
-| `buildings` | Tripo / Meshy | ✅ cleanup + UV | ✅ Draco + KTX2 |
-| `props` | Tripo | ✅ cleanup | ✅ Draco + KTX2 |
-| `characters` | Rodin / Tripo | ✅ rig + VAT bake | ✅ mesh only |
-| `environments` | Luma AI | ❌ skip | ✅ .ply → .spz |
-| `textures` | Poly Haven | ❌ skip | ✅ KTX2 convert |
+| Category       | AI Generation | Blender MCP       | gltf-transform  |
+| -------------- | ------------- | ----------------- | --------------- |
+| `buildings`    | Tripo / Meshy | ✅ cleanup + UV   | ✅ Draco + KTX2 |
+| `props`        | Tripo         | ✅ cleanup        | ✅ Draco + KTX2 |
+| `characters`   | Rodin / Tripo | ✅ rig + VAT bake | ✅ mesh only    |
+| `environments` | Luma AI       | ❌ skip           | ✅ .ply → .spz  |
+| `textures`     | Poly Haven    | ❌ skip           | ✅ KTX2 convert |
 
 ---
 
@@ -221,33 +244,33 @@ Asset > 5MB → CDN (Cloudflare R2 / Bunny.net). Asset < 5MB → bundle với Vi
 
 ### Buildings
 
-| Asset | Source | Status | Polycount (prod) | Used in |
-|-------|--------|--------|-----------------|---------|
-| _(chưa có)_ | — | — | — | — |
+| Asset       | Source | Status | Polycount (prod) | Used in |
+| ----------- | ------ | ------ | ---------------- | ------- |
+| _(chưa có)_ | —      | —      | —                | —       |
 
 ### Characters
 
-| Asset | Source | Status | Polycount (prod) | Used in |
-|-------|--------|--------|-----------------|---------|
-| _(chưa có)_ | — | — | — | — |
+| Asset       | Source | Status | Polycount (prod) | Used in |
+| ----------- | ------ | ------ | ---------------- | ------- |
+| _(chưa có)_ | —      | —      | —                | —       |
 
 ### Environments
 
-| Asset | Source | Status | Format | Used in |
-|-------|--------|--------|--------|---------|
-| _(chưa có)_ | — | — | — | — |
+| Asset       | Source | Status | Format | Used in |
+| ----------- | ------ | ------ | ------ | ------- |
+| _(chưa có)_ | —      | —      | —      | —       |
 
 ### Props
 
-| Asset | Source | Status | Polycount (prod) | Used in |
-|-------|--------|--------|-----------------|---------|
-| _(chưa có)_ | — | — | — | — |
+| Asset       | Source | Status | Polycount (prod) | Used in |
+| ----------- | ------ | ------ | ---------------- | ------- |
+| _(chưa có)_ | —      | —      | —                | —       |
 
 ### Textures
 
-| Texture | Source | Resolution | Maps | Used in |
-|---------|--------|-----------|------|---------|
-| _(chưa có)_ | — | — | — | — |
+| Texture     | Source | Resolution | Maps | Used in |
+| ----------- | ------ | ---------- | ---- | ------- |
+| _(chưa có)_ | —      | —          | —    | —       |
 
 ---
 

@@ -4,6 +4,7 @@
   "source-tool": "luma",
   "status": "raw",
   "description": "Mô tả 1 câu — dùng để search",
+  "shaderProfile": "splat-outdoor",
   "tags": ["splat", "outdoor", "vietnamese"],
   "format": "spz",
   "file-size": {
